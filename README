@@ -1,11 +1,1 @@
-This is a template for public repository on Graphics project. The source code
-in this repo *may* be hosted on a public server.
-
-This repository template allows:
-1. BitBucket public access. Any user can clone / browse the repository
-2. Forking is allowed
-3. All changes require a pull request
-4. Branch prefixes (bugfix, feature, ...) need to be used for branches
-5. All pull requests are required to be associated with a JIRA issue
-	JIRA issue should be a Story/Bug with "InProgress" state
-6. Merge strategy should be fast forward
+This repository contains the Rogue 8XE DDK user mode libraries / binaries.
