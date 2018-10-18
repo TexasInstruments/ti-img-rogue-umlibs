@@ -1,0 +1,15 @@
+#version 300 es
+#extension GL_EXT_YUV_target : enable
+
+in highp vec2 texcoord;
+in highp vec4 basecolor;
+layout(yuv) out highp vec4 myFragColor;
+
+uniform highp sampler2D basetexture;
+
+void main(void)
+{
+	highp vec4 texlookup = texture(basetexture, texcoord);
+	highp vec4 myFragColorRGB = texlookup * basecolor;
+	myFragColor = vec4(rgb_2_yuv(myFragColorRGB.xyz, itu_601), 1.0);
+}

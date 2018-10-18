@@ -1,0 +1,13 @@
+#version 300 es
+#extension GL_OES_EGL_image_external:require
+
+out highp vec4 myFragColor;
+
+in highp vec2 texcoord;
+
+uniform highp samplerExternalOES basetexture;
+
+void main(void)
+{
+	myFragColor = texture2D(basetexture, texcoord);
+}
