@@ -112,7 +112,7 @@ do
             echo "|     -m  : Call hwperfjsonmerge.py (if present), to merge generated *.json"
             echo "|           files (python interpreter required)."
          fi
-         echo "|     -c  : Prints the log file to the std output just after pvrtld execution."
+         echo "|     -c  : Prints the log files to the std output just after pvrtld execution."
          echo "|     -h  : Print this message."
          echo "|     -fw 0xFILTER   : Specify a 64-bit hexadecimal filter value for FW events"
          echo "|                      (original value is restored afterwards)."
@@ -167,7 +167,8 @@ if [ -n "$OUT3_JSON_FILE_TMP" ]; then
 fi
 OUT_JSON_MERGE_FILE_TMP="$WORK_DIR/$OUT_JSON_MERGE_FILE_TMP"
 CFG_FILE=$WORK_DIR/"tld.conf"
-LOG_FILE=$WORK_DIR/"tld.log"
+TLD_LOG_FILE=$WORK_DIR/"tld.log"
+HWP_LOG_FILE=$WORK_DIR/"hwp.log"
 OUT1_FILE_TMP=$WORK_DIR/"hwperf_fw_*.bin"
 OUT2_FILE_TMP=$WORK_DIR/"hwperf_host_*.bin"
 OUT3_FILE_TMP=$WORK_DIR/"hwperf_client_*.bin"
@@ -218,7 +219,7 @@ if [ x"$HWPERF_FW_FILTER" != x ] || [ x"$HWPERF_HOST_FILTER" != x ]; then
       exit 1
     fi
 
-    echo $HWPERF_HOST_FILTER > $HWPERF_HOST_FILTER_FILE
+    echo $HWPERF_HOST_FILTER > $HWPERF_HOST_FILTER_FILE 2>/dev/null
     if [ $? != 0 ]; then
       echo "[Error] Failed to set host events filter"
       echo "        Check if the parameteres passed to the script are valid"
@@ -293,7 +294,7 @@ echo "| Starting capture of HWPerf data..."
 echo "+-----------------------------------------------------------------------------+"
 echo "| Using these temporary files:"
 echo "| - TLDaemon configuration file:     $CFG_FILE"
-echo "| - TLDaemon log file:               $LOG_FILE"
+echo "| - TLDaemon log file:               $TLD_LOG_FILE"
 echo "| - HWPerf binary file(s):           $OUT1_FILE_TMP"
 echo "| - HWPerfHost binary file(s):       $OUT2_FILE_TMP"
 echo "| - HWPerfClient binary file(s):     $OUT3_FILE_TMP"
@@ -306,11 +307,11 @@ else
   if [ x"$JSM_BIN" != x ] && [ x"$PYTHON_BIN" != x ] && [ x"$OUT_JSON_MERGE_FILE" != x ]; then
     echo "| - HWPerf merged json file(s):      $OUT_JSON_MERGE_FILE_TMP"
   fi
-  echo "| - JSON conversion log file:        $LOG_FILE"
+  echo "| - JSON conversion log file:        $TLD_LOG_FILE"
 fi
 echo "+-----------------------------------------------------------------------------+"
 
-$TLD_BIN -f=$CFG_FILE -q -s 2> $LOG_FILE
+$TLD_BIN -f=$CFG_FILE -q -s 2> $TLD_LOG_FILE
 TLD_RET=$?
 
 # LAST MESSAGES
@@ -318,16 +319,16 @@ if [ "$TLD_RET" -ne "0" ]; then
   echo "+-----------------------------------------------------------------------------+"
   echo "| Capture process exited with error code $TLD_RET"
 else
-  out1filecnt=$(ls -f $OUT1_FILE_TMP 2>/dev/null | wc -l 2>/dev/null)
-  out2filecnt=$(ls -f $OUT2_FILE_TMP 2>/dev/null | wc -l 2>/dev/null)
-  out3filecnt=$(ls -f $OUT3_FILE_TMP 2>/dev/null | wc -l 2>/dev/null)
+  out1filecnt=$(ls $OUT1_FILE_TMP 2>>$HWP_LOG_FILE | wc -l 2>>$HWP_LOG_FILE)
+  out2filecnt=$(ls $OUT2_FILE_TMP 2>>$HWP_LOG_FILE | wc -l 2>>$HWP_LOG_FILE)
+  out3filecnt=$(ls $OUT3_FILE_TMP 2>>$HWP_LOG_FILE | wc -l 2>>$HWP_LOG_FILE)
   if [ $out1filecnt -ne 0 ] || [ $out2filecnt -ne 0 ] || [ $out3filecnt -ne 0 ]; then
     if [ x"$OUT1_JSON_FILE" != x ]; then
-      out1jsonlist=$(ls -f $OUT1_JSON_FILE_TMP 2>/dev/null)
-      out1jsonfilecnt=$(ls -f $OUT1_JSON_FILE_TMP 2>/dev/null | wc -l 2>/dev/null)
+      out1jsonlist=$(ls $OUT1_JSON_FILE_TMP 2>>$HWP_LOG_FILE)
+      out1jsonfilecnt=$(ls $OUT1_JSON_FILE_TMP 2>>$HWP_LOG_FILE | wc -l 2>>$HWP_LOG_FILE)
     fi
     if [ x"$OUT2_JSON_FILE" != x ]; then
-      out2jsonfilecnt=$(ls -f $OUT2_JSON_FILE_TMP 2>/dev/null | wc -l 2>/dev/null)
+      out2jsonfilecnt=$(ls $OUT2_JSON_FILE_TMP 2>>$HWP_LOG_FILE | wc -l 2>>$HWP_LOG_FILE)
     fi
     if [ x"$JSM_BIN" != x ] && [ x"$PYTHON_BIN" != x ] && [ x"$OUT_JSON_MERGE_FILE" != x ]; then
       echo "+-----------------------------------------------------------------------------+"
@@ -355,13 +356,13 @@ else
 	  mv $OUT2_JSON_FILE_TMP $OUT2_JSON_FILE
     fi
     if [ x"$OUT_JSON_MERGE_FILE" != x ]; then
-      if [ $(ls -f $OUT_JSON_MERGE_FILE_TMP | wc -l 2>/dev/null) -ne 0 ]; then
+      if [ $(ls $OUT_JSON_MERGE_FILE_TMP | wc -l 2>>$HWP_LOG_FILE) -ne 0 ]; then
         mv $OUT_JSON_MERGE_FILE_TMP $OUT_JSON_MERGE_FILE
       fi
     fi
-    if ls $OUT3_FILE_TMP >/dev/null 2>&1; then
+    if ls $OUT3_FILE_TMP >>$HWP_LOG_FILE 2>&1; then
       mv $OUT3_FILE_TMP $OUT3_DIR
-      if [ -n "$OUT3_JSON_FILE_TMP" ] && ls $OUT3_JSON_FILE_TMP >/dev/null 2>&1; then
+      if [ -n "$OUT3_JSON_FILE_TMP" ] && ls $OUT3_JSON_FILE_TMP >>$HWP_LOG_FILE 2>&1; then
         mv $OUT3_JSON_FILE_TMP $OUT3_JSON_DIR
       fi
     fi
@@ -376,9 +377,14 @@ sync
 if [ "$CAT_LOG" = "yes" ]; then
   echo "+-----------------------------------------------------------------------------+"
   echo "| TLDaemon debug log file..."
-  echo "| $TXT_READER $LOG_FILE"
+  echo "| $TXT_READER $TLD_LOG_FILE"
   echo "+-----------------------------------------------------------------------------+"
-  $TXT_READER $LOG_FILE
+  $TXT_READER $TLD_LOG_FILE
+  echo "+-----------------------------------------------------------------------------+"
+  echo "| pvrhwperf debug log file..."
+  echo "| $TXT_READER $HWP_LOG_FILE"
+  echo "+-----------------------------------------------------------------------------+"
+  $TXT_READER $HWP_LOG_FILE
 fi
 echo "+-----------------------------------------------------------------------------+"
 
