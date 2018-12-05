@@ -26,7 +26,7 @@ provides additional enhancements and integration for Jacinto7 Linux.
 Features
 ----------
 
-This release supports OpenGLES 1.x.
+This release supports OpenGLES 1.x and OpenGLES 2.x.
 
 DDK dependencies: libdrm
 
@@ -89,8 +89,11 @@ target $ /etc/init.d/rc.pvr start
 *                         TEST                                      *
 *********************************************************************
 
-The DDK has been verified using the gles1test1 test application that has
-been included with the SDK file system. This application uses OpenGLES 1.x
-and FBDev to render rotating triangle on the screen.
+The DDK has been verified using the gles1test1 and gles2test1 test 
+applications that has been included with the SDK file system. The 
+applications use OpenGLES 1.x and OpenGLES 2.x to render a triangle 
+on nulldisp offscreen display.
 
-target $ gles1test1 -f
+target $ gles1test1
+
+target $ gles2test1
