@@ -1,0 +1,11 @@
+#version 300 es
+out highp vec2 texcoord;
+
+in highp vec4 position;
+in highp vec2 inputtexcoord;
+
+void main(void)
+{
+	texcoord = inputtexcoord;
+	gl_Position = position;
+}
