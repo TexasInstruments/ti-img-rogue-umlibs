@@ -63,7 +63,7 @@ target filesystem mounted:
 host $ export DISCIMAGE=<path_to_target_root_filesystem>
 host $ export TARGET_PRODUCT=<SoC value>
        # allowed values are:
-       # dra822_linux = All DRA82x derivatives
+       # j721e_linux = All Jacinto7 derivatives
 host $ export BUILD=<build configuration>
        # allowed values are:
        # release = Release mode binaries
