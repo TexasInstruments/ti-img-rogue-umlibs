@@ -1,5 +1,5 @@
 DESTDIR ?= ${DISCIMAGE}
-TARGET_PRODUCT ?= dra822_linux
+TARGET_PRODUCT ?= j721e_linux
 BUILD ?= release
 SRCDIR = ./targetfs/${TARGET_PRODUCT}/${BUILD}
 
