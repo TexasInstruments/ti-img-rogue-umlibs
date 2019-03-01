@@ -51,15 +51,15 @@ load_pvr()
 	# Load 3rd party module(s).
 	#
 		
-	if ! /sbin/modprobe -q dc_example $PVR_DISPLAY_PARAMS; then
-		echo "Module dc_example failed to load. Retrying."
+	if ! /sbin/modprobe -q drm_nulldisp $PVR_DISPLAY_PARAMS; then
+		echo "Module drm_nulldisp failed to load. Retrying."
 		if [ -z $depmod_has_been_run ]; then
 			if [ -e /sbin/depmod ]; then
 				echo "Running /sbin/depmod"
 				/sbin/depmod && depmod_has_been_run=1
 			fi
 		fi
-		if ! /sbin/modprobe -q dc_example $PVR_DISPLAY_PARAMS; then echo "Continuing to load PowerVR services (dc_example failed to load)"; dc_example_failed=1; fi
+		if ! /sbin/modprobe -q drm_nulldisp $PVR_DISPLAY_PARAMS; then echo "Continuing to load PowerVR services (drm_nulldisp failed to load)"; drm_nulldisp_failed=1; fi
 	fi
 	echo "Loaded PowerVR consumer services."
 	return 0;
@@ -69,7 +69,7 @@ unload_pvr()
 {
 	# Unload 3rd party module(s).
 	#
-		if /sbin/modprobe -r dc_example; then :; else echo "Warning: Could not unload dc_example"; fi
+		if /sbin/modprobe -r drm_nulldisp; then :; else echo "Warning: Could not unload drm_nulldisp"; fi
 
 	# Unload the PVR Services module.
 	#
