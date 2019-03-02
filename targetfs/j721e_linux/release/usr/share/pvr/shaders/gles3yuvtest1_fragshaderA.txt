@@ -1,0 +1,10 @@
+#version 300 es
+#extension GL_EXT_YUV_target : enable
+
+in highp vec4 basecolor;
+layout(yuv) out highp vec4 myFragColor;
+
+void main(void)
+{
+	myFragColor = vec4(rgb_2_yuv(basecolor.xyz, itu_601), 1.0);
+}
