@@ -1,7 +1,8 @@
 DESTDIR ?= ${DISCIMAGE}
 TARGET_PRODUCT ?= j721e_linux
 BUILD ?= release
-SRCDIR = ./targetfs/${TARGET_PRODUCT}/${BUILD}
+WINDOW_SYSTEM ?= nulldrmws
+SRCDIR = ./targetfs/${TARGET_PRODUCT}/${WINDOW_SYSTEM}/${BUILD}
 
 etcdir = etc
 usrdir = usr
