@@ -36,6 +36,8 @@
 
 #include <KHR/khrplatform.h>
 
+#define MESA_EGL_NO_X11_HEADERS
+
 /* Macros used in EGL function prototype declarations.
  *
  * EGL functions should be prototyped as:
