@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 #### ###########################################################################
 
-# Auto-generated for j721e_linux from rogueddk_1.10@5187610
+# Auto-generated for j721e_linux from rogueddk_1.10@5371573
 #
 
 load_pvr()
@@ -50,18 +50,7 @@ load_pvr()
 	
 	# Load 3rd party module(s).
 	#
-		
-	if ! /sbin/modprobe -q drm_nulldisp $PVR_DISPLAY_PARAMS; then
-		echo "Module drm_nulldisp failed to load. Retrying."
-		if [ -z $depmod_has_been_run ]; then
-			if [ -e /sbin/depmod ]; then
-				echo "Running /sbin/depmod"
-				/sbin/depmod && depmod_has_been_run=1
-			fi
-		fi
-		if ! /sbin/modprobe -q drm_nulldisp $PVR_DISPLAY_PARAMS; then echo "Continuing to load PowerVR services (drm_nulldisp failed to load)"; drm_nulldisp_failed=1; fi
-	fi
-	echo "Loaded PowerVR consumer services."
+			echo "Loaded PowerVR consumer services."
 	return 0;
 }
 
@@ -69,8 +58,7 @@ unload_pvr()
 {
 	# Unload 3rd party module(s).
 	#
-		if /sbin/modprobe -r drm_nulldisp; then :; else echo "Warning: Could not unload drm_nulldisp"; fi
-
+		
 	# Unload the PVR Services module.
 	#
 	if /sbin/modprobe -r pvrsrvkm; then :; else return 1; fi
