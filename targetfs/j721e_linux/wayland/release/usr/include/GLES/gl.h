@@ -36,7 +36,7 @@ extern "C" {
 
 #include <GLES/glplatform.h>
 
-/* Generated on date 20170606 */
+/* Generated on date 20171212 */
 
 /* Generated C header for:
  * API: gles1
@@ -50,20 +50,11 @@ extern "C" {
 
 #ifndef GL_VERSION_ES_CM_1_0
 #define GL_VERSION_ES_CM_1_0 1
-
-/*
- * XXX: Temporary fix; needs to be reverted as part of the next
- * header update.
- * For more details:
- * https://github.com/KhronosGroup/OpenGL-Registry/pull/76
- * https://lists.freedesktop.org/archives/mesa-dev/2017-June/161647.html
- */
 #include <KHR/khrplatform.h>
 typedef khronos_int8_t GLbyte;
 typedef khronos_float_t GLclampf;
 typedef short GLshort;
 typedef unsigned short GLushort;
-
 typedef void GLvoid;
 typedef unsigned int GLenum;
 typedef khronos_float_t GLfloat;
