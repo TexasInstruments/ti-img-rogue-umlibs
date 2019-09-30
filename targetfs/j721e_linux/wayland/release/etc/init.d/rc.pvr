@@ -28,8 +28,26 @@
 
 load_pvr()
 {
+	# Find out which DriverMode to use (virtualization)
+	DT_RESERVED_MEM=/sys/firmware/devicetree/base/reserved-memory
+	DT_MODEL_NAME=`cat /sys/firmware/devicetree/base/model`
+
+	if [[ $DT_MODEL_NAME == *"Inmate"* ]]; then
+		echo "GPU: Running Guest Mode"
+		PVR_SRVKM_PARAMS="DriverMode=1 sys_devmem_fbase=0xC1000000 sys_devmem_forigin=0"
+	else
+		if test -n "$(find /sys/firmware/devicetree/base/reserved-memory -maxdepth 1 -name 'gpu-fw-mem*')"
+		then
+			echo "GPU: Running Host Mode"
+			PVR_SRVKM_PARAMS="DriverMode=0 sys_devmem_fbase=0xC0000000 sys_devmem_forigin=0"
+		else
+			echo "GPU: Running Native Mode"
+		fi
+
+	fi
+
 	# Load the PVR Services module.
-	#	
+	#
 	if ! /sbin/modprobe -q pvrsrvkm $PVR_SRVKM_PARAMS; then
 		echo "Module pvrsrvkm failed to load. Retrying."
 		if [ -z $depmod_has_been_run ]; then
@@ -47,16 +65,7 @@ load_pvr()
 		/sbin/udevadm control --reload-rules
 	fi
 
-		# Create the directory for the Wayland socket.
-	#
-	if [ -z "$XDG_RUNTIME_DIR" ]; then
-		XDG_RUNTIME_DIR=/tmp/wayland
-	fi
-	if [ ! -e $XDG_RUNTIME_DIR ]; then
-		mkdir $XDG_RUNTIME_DIR && chmod 0700 $XDG_RUNTIME_DIR
-	fi
-	
-	ldconfig
+
 	echo "Loaded PowerVR consumer services."
 	return 0;
 }
