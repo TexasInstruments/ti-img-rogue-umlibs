@@ -101,7 +101,11 @@ init() {
 
     # some useful variables
     DEBUGFS_PATH=/sys/kernel/debug
-    PVR_DEBUGFS_PATH=$DEBUGFS_PATH/pvr
+    if [ -d $DEBUGFS_PATH/pvr ]; then
+        PVR_DEBUGFS_PATH=$DEBUGFS_PATH/pvr
+    elif [ -d /proc/pvr ]; then
+        PVR_DEBUGFS_PATH=/proc/pvr
+    fi
     FTRACE_PATH=$DEBUGFS_PATH/tracing
     LOCKDEP_PATH=/proc/lockdep
     PVRINI_PATH=/etc/powervr.ini
@@ -343,6 +347,10 @@ dump_dmesg() {
 }
 
 dump_debugfs() {
+    local BLACKLIST="
+        $PVR_DEBUGFS_PATH/rgxregs
+    "
+
     echo ""
     echo "===== Dumping files from pvr debugfs ================================"
     echo ""
@@ -370,6 +378,18 @@ dump_debugfs() {
         else
             local FILES="`find $PVR_DEBUGFS_PATH -type f`"
             for FILE in $FILES; do
+                local IGNORE=false
+                for ELEMENT in $BLACKLIST; do
+                    if [ $ELEMENT = $FILE ]; then
+                        IGNORE=true
+                        break
+                    fi
+                done
+
+                if [ "$IGNORE" = "true" ]; then
+                    continue
+                fi
+
                 echo ""
                 echo "==== $FILE ===="
                 echo ""
@@ -420,7 +440,7 @@ dump_android() {
         fi
     fi
 
-    # NOTE: It might be worth to call also dumpstate (which runs procrank) here 
+    # NOTE: It might be worth to call also dumpstate (which runs procrank) here
     # but procrank causes some of the targets to crash. It's left out for now.
 }
 
