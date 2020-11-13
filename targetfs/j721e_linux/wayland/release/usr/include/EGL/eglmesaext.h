@@ -34,13 +34,6 @@ extern "C" {
 
 #include <EGL/eglplatform.h>
 
-#ifdef EGL_MESA_drm_image
-/* Mesa's extension to EGL_MESA_drm_image... */
-#ifndef EGL_DRM_BUFFER_USE_CURSOR_MESA
-#define EGL_DRM_BUFFER_USE_CURSOR_MESA		0x0004
-#endif
-#endif
-
 #ifndef EGL_WL_bind_wayland_display
 #define EGL_WL_bind_wayland_display 1
 
@@ -83,7 +76,7 @@ typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSREGIONNOK) (EGLDisplay dpy, EG
 
 #ifndef EGL_MESA_configless_context
 #define EGL_MESA_configless_context 1
-#define EGL_NO_CONFIG_MESA			((EGLConfig)0)
+#define EGL_NO_CONFIG_MESA			EGL_CAST(EGLConfig,0)
 #endif
 
 #ifndef EGL_MESA_drm_image_formats

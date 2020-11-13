@@ -1,12 +1,11 @@
 prefix=/usr
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
+libdir=${prefix}/lib
 includedir=${prefix}/include
 
 Name: egl
-Description: Mesa EGL library
-Requires.private: 
-Version: 17.3.6
+Description: Mesa EGL Library
+Version: 20.0.1
+Requires.private: libdrm >=  2.4.75
 Libs: -L${libdir} -lEGL
-Libs.private: 
-Cflags: -I${includedir}  -DMESA_EGL_NO_X11_HEADERS
+Libs.private: -lpthread -pthread -lm -ldl
+Cflags:-I${includedir} -DEGL_NO_X11

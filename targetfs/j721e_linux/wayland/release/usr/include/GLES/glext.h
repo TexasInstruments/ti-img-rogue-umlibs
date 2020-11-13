@@ -1,12 +1,12 @@
-#ifndef __glext_h_
-#define __glext_h_ 1
+#ifndef __gles1_glext_h_
+#define __gles1_glext_h_ 1
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /*
-** Copyright (c) 2013-2017 The Khronos Group Inc.
+** Copyright (c) 2013-2018 The Khronos Group Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and/or associated documentation files (the
@@ -38,7 +38,7 @@ extern "C" {
 #define GL_APIENTRYP GL_APIENTRY*
 #endif
 
-/* Generated on date 20171212 */
+/* Generated on date 20190611 */
 
 /* Generated C header for:
  * API: gles1
@@ -53,9 +53,6 @@ extern "C" {
 #ifndef GL_KHR_debug
 #define GL_KHR_debug 1
 #endif /* GL_KHR_debug */
-
-/* Custom symbolic constant to be used as target in glHint() to trigger forced PDump capture stop from application in block-mode of PDump */
-#define GL_IMG_PDUMP_FORCE_CAPTURE_STOP				  0x7513
 
 #ifndef GL_OES_EGL_image
 #define GL_OES_EGL_image 1

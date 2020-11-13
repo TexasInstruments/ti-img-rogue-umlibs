@@ -1,12 +1,12 @@
-#ifndef __gl_h_
-#define __gl_h_ 1
+#ifndef __gles1_gl_h_
+#define __gles1_gl_h_ 1
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /*
-** Copyright (c) 2013-2017 The Khronos Group Inc.
+** Copyright (c) 2013-2018 The Khronos Group Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and/or associated documentation files (the
@@ -36,7 +36,7 @@ extern "C" {
 
 #include <GLES/glplatform.h>
 
-/* Generated on date 20171212 */
+/* Generated on date 20190611 */
 
 /* Generated C header for:
  * API: gles1
@@ -53,8 +53,8 @@ extern "C" {
 #include <KHR/khrplatform.h>
 typedef khronos_int8_t GLbyte;
 typedef khronos_float_t GLclampf;
-typedef short GLshort;
-typedef unsigned short GLushort;
+typedef khronos_int16_t GLshort;
+typedef khronos_uint16_t GLushort;
 typedef void GLvoid;
 typedef unsigned int GLenum;
 typedef khronos_float_t GLfloat;
