@@ -1,6 +1,6 @@
 prefix=/usr
-libdir=${prefix}/lib
 includedir=${prefix}/include
+libdir=${prefix}/lib
 
 Name: glesv2
 Description: Mesa OpenGL ES 2.0 library
