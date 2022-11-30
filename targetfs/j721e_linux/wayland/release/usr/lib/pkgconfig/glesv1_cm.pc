@@ -1,6 +1,6 @@
 prefix=/usr
-includedir=${prefix}/include
 libdir=${prefix}/lib
+includedir=${prefix}/include
 
 Name: glesv1_cm
 Description: Mesa OpenGL ES 1.1 CM library

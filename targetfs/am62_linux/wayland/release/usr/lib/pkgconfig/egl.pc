@@ -1,6 +1,6 @@
 prefix=/usr
-includedir=${prefix}/include
 libdir=${prefix}/lib
+includedir=${prefix}/include
 
 Name: egl
 Description: Mesa EGL Library

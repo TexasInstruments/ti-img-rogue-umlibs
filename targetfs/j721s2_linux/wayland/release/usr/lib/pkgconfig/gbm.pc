@@ -1,6 +1,6 @@
 prefix=/usr
-includedir=${prefix}/include
 libdir=${prefix}/lib
+includedir=${prefix}/include
 
 Name: gbm
 Description: Mesa gbm library
