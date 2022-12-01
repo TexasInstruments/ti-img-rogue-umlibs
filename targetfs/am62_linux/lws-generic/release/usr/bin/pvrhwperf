@@ -37,7 +37,7 @@ H2J_NAME="hwperfbin2jsont"
 JSM_NAME="hwperfjsonmerge.py"
 
 if [ x"$OS" = xLINUX ]; then
-    PYTHON_BIN="`which \"python\"`"
+    PYTHON_BIN="`which \"python3\"`"
 fi
 
 # FUNCTIONS FOR SAVING AND RESTORING STATE
@@ -138,7 +138,7 @@ do
          echo "|           generated *.bin output files, after pvrtld end."
          if [ x"$PYTHON_BIN" != x ]; then
             echo "|     -m  : Call hwperfjsonmerge.py (if present), to merge generated *.json"
-            echo "|           files (python interpreter required)."
+            echo "|           files (python3 interpreter required)."
          fi
          echo "|     -c  : Prints the log files to the std output just after pvrtld execution."
          echo "|     -h  : Print this message."
