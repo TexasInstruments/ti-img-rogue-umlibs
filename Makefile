@@ -8,7 +8,7 @@ etcdir = etc
 usrdir = usr
 fwdir = lib
 
-all:
+all: install
 
 install:
 	mkdir -p ${DESTDIR}/${etcdir}
@@ -17,3 +17,7 @@ install:
 	cp -ar ${SRCDIR}/${etcdir}/* ${DESTDIR}/${etcdir}
 	cp -ar ${SRCDIR}/${usrdir}/* ${DESTDIR}/${usrdir}
 	cp -ar ${SRCDIR}/${fwdir}/* ${DESTDIR}/${fwdir}
+
+
+.PHONY: install all
+
