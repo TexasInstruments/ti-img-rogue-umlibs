@@ -8,7 +8,7 @@ etcdir = etc
 usrdir = usr
 fwdir = lib
 
-all:
+all: install
 
 install:
 	mkdir -p ${DESTDIR}/${etcdir}
@@ -17,3 +17,17 @@ install:
 	cp -ar ${SRCDIR}/${etcdir}/* ${DESTDIR}/${etcdir}
 	cp -ar ${SRCDIR}/${usrdir}/* ${DESTDIR}/${usrdir}
 	cp -ar ${SRCDIR}/${fwdir}/* ${DESTDIR}/${fwdir}
+
+clean:
+	$(info Remvoing unnecessary log files)
+	find targetfs -name '*.log' -delete
+	$(info Remvoing files with invalid license)
+	rg -i 'confidential' targetfs/ --files-with-matches | \
+		while IFS='\n' read -r line; do \
+			echo "$$line" ; \
+			rm "$$line" ; \
+		done
+	$(info Remvoing empty directories)
+	find targetfs/ -type d -empty -delete
+
+.PHONY: all install clean
