@@ -27,6 +27,8 @@ clean:
 			echo "$$line" ; \
 			rm "$$line" ; \
 		done
+	$(info Removing legacy sysvinit scripts)
+	find targetfs/ -wholename '*etc/init.d/*' -delete
 	$(info Remvoing empty directories)
 	find targetfs/ -type d -empty -delete
 
