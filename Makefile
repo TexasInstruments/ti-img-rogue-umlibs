@@ -17,6 +17,7 @@ install:
 	cp -ar ${SRCDIR}/${etcdir}/* ${DESTDIR}/${etcdir}
 	cp -ar ${SRCDIR}/${usrdir}/* ${DESTDIR}/${usrdir}
 	cp -ar ${SRCDIR}/${fwdir}/* ${DESTDIR}/${fwdir}
+	install -Dm0644 pvrsrvkm.conf "${DESTDIR}/${usrdir}/lib/modprobe.d/pvrsrvkm.conf"
 
 clean:
 	@echo Remvoing unnecessary log files
